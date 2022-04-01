@@ -1,0 +1,24 @@
+name: test
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  initial:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: action
+        with:
+          target: bmake
+          command: apt-get install
+          archive: /tmp/apt-archive.tz
+          directory: /usr
+          sudo: true
+      - run: |
+          tar tvfz /tmp/apt-archive.tz

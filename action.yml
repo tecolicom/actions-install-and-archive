@@ -1,0 +1,80 @@
+name: install-and-archive generic backend
+description: 'GitHub Action to run installer and archive result'
+author: 'Office TECOLI, LLC'
+branding: 
+  color: orange
+  icon:  type
+
+inputs:
+  target:    { required: true,  type: string }
+  command:   { required: true,  type: string }
+  archive:   { required: true,  type: string }
+  directory: { required: true,  type: string }
+  list:      { required: false, type: string, default: "/tmp/updated-list" }
+  sudo:      { required: false, type: boolean }
+  verbose:   { required: false, type: boolean, default: false }
+
+runs:
+  using: composite
+  steps:
+
+    - id: setup
+      shell: bash
+      run: |
+        : setup install-and-archive
+        cat << END
+        ::set-output name=epoch::/tmp/epoch-$$
+        END
+
+    - id: install
+      shell: bash
+      run: |
+        : install
+        [ "${{ inputs.sudo }}" = true ] && sudo=sudo
+        epoch="${{ steps.setup.outputs.epoch }}"
+        : ${epoch:?}
+        test "${{ inputs.command }}" != ''
+        test "${{ inputs.target }}" != ''
+        touch $epoch && touch -A -01 $epoch &> /dev/null || sleep 0.1
+        ls -l $epoch
+        $sudo ${{ inputs.command }} ${{ inputs.target }}
+
+    - id: archive
+      shell: bash
+      run: |
+        : archive
+        epoch="${{ steps.setup.outputs.epoch }}"
+        archive="${{ inputs.archive }}"
+        list=${{ inputs.list }}
+        verbose="${{ inputs.verbose }}"
+        directory="${{ inputs.directory }}"
+        [ "${{ inputs.sudo }}" = true ] && sudo=sudo
+        : ${epoch:?} ${archive:?} ${directory:?}
+        set $directory
+        directory=
+        for dir in $*
+        do
+            [ -d "$dir" ] && [[ "$dir" =~ ^/ ]] && directory="$directory $dir"
+        done
+        if [ -f $epoch ]
+        then
+            cd /
+            # require sudo to avoid permission error
+            time sudo \
+                find $directory \
+                     -not -type d \( -cnewer $epoch -o -newer $epoch \) -print > $list
+            if [ -s $list ]
+            then
+                time $sudo tar -cvzf $archive -T $list
+                ls -l $archive
+                if [ "$verbose" = true ]
+                then
+                    tar -tvzf $archive
+                fi
+            else
+                echo "no updated file found."
+                touch $archive
+            fi
+        else
+            echo $epoch not found
+        fi
