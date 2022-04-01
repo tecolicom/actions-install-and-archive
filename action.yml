@@ -59,9 +59,6 @@ runs:
         if [ -f $epoch ]
         then
             cd /
-            ls -ld $directory
-            ls -l  $directory
-            du -sh /usr/*
             # require sudo to avoid permission error
             time sudo \
                 find $directory \

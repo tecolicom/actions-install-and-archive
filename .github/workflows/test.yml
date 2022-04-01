@@ -15,10 +15,10 @@ jobs:
       - uses: ./
         id: action
         with:
-          target: bmake
+          target: mecab mecab-ipadic-utf8 libmecab-dev
           command: apt-get install
           archive: /tmp/apt-archive.tz
-          directory: /usr/
+          directory: /usr /var
           sudo: true
       - run: |
           tar tvfz /tmp/apt-archive.tz
