@@ -62,7 +62,7 @@ runs:
             # require sudo to avoid permission error
             time sudo \
                 find $directory \
-                     -not -type d \( -cnewer $epoch -o -newer $epoch \) -print > $list
+                     -not -type d \( -cnewer $epoch -o -newer $epoch \) -print | tee $list
             if [ -s $list ]
             then
                 time $sudo tar -cvzf $archive -T $list

@@ -18,7 +18,7 @@ jobs:
           target: bmake
           command: apt-get install
           archive: /tmp/apt-archive.tz
-          directory: /usr
+          directory: /usr/bin /usr/share
           sudo: true
       - run: |
           tar tvfz /tmp/apt-archive.tz
