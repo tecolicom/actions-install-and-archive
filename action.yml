@@ -8,8 +8,8 @@ branding:
 inputs:
   target:    { required: true,  type: string }
   command:   { required: true,  type: string }
-  archive:   { required: true,  type: string }
-  directory: { required: true,  type: string }
+  archive:   { required: false, type: string }
+  directory: { required: false, type: string }
   list:      { required: false, type: string, default: "/tmp/updated-list" }
   sudo:      { required: false, type: boolean }
   verbose:   { required: false, type: boolean, default: false }
@@ -40,6 +40,7 @@ runs:
         $sudo ${{ inputs.command }} ${{ inputs.target }}
 
     - id: archive
+      if: inputs.archive != ''
       shell: bash
       run: |
         : archive
