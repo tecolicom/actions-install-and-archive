@@ -16,9 +16,8 @@ jobs:
         id: action
         with:
           target: mecab mecab-ipadic-utf8 libmecab-dev
-          command: apt-get install
+          command: apt-get install -qq
           archive: /tmp/apt-archive.tz
-          method: timestamp
           sudo: true
           directory: >-
             /etc
@@ -29,5 +28,7 @@ jobs:
             /var/lib
       - run: |
           tar tvfz /tmp/apt-archive.tz \
+              usr/bin/mecab \
+              usr/lib/mecab/mecab-dict-index \
               etc/alternatives/mecab-dictionary \
               var/lib/mecab/dic/ipadic-utf8/sys.dic
