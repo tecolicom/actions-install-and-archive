@@ -51,19 +51,21 @@ runs:
         directory="${{ inputs.path }}"
         [ "${{ inputs.sudo }}" = true ] && sudo=sudo
         : ${epoch:?} ${archive:?} ${directory:?}
-        set $directory
-        directory=
-        for dir in $*
-        do
-            [ -d "$dir" ] && [[ "$dir" =~ ^/ ]] && directory="$directory $dir"
-        done
         if [ -f $epoch ]
         then
             cd /
-            # require sudo to avoid permission error
-            time sudo \
-                find $directory \
-                     -not -type d \( -cnewer $epoch -o -newer $epoch \) -print | tee $list
+            > $list
+            for dir in $directory
+            do
+                [[ ! "$dir" =~ ^/ ]] && echo "$dir does not start with /" && continue
+                [ -d "$dir" ] || continue
+                echo "Finding $dir..."
+                # require sudo to avoid permission error
+                time sudo \
+                find $dir \
+                    -not -type d \( -cnewer $epoch -o -newer $epoch \) -print \
+                    | tee -a $list
+            done
             if [ -s $list ]
             then
                 time $sudo tar -cvzf $archive -T $list
