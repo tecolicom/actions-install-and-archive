@@ -21,7 +21,7 @@ to be used from normal workflow.
 #   sudo:    { required: false, type: boolean }
 #   verbose: { required: false, type: boolean, default: false }
 
-- uses: tecoli-com/actions-install-and-cache@v0
+- uses: tecoli-com/actions-install-and-archive@v0
   with:
 
     # install command
@@ -49,7 +49,7 @@ to be used from normal workflow.
 ## Example
 
 ```yaml
-- uses: tecoli-com/actions-install-and-cache@v0
+- uses: tecoli-com/actions-install-and-archive@v0
   with:
     target: mecab mecab-ipadic-utf8
     command: apt-get install -qq
