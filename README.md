@@ -13,13 +13,13 @@ to be used from normal workflow.
 
 ```yaml
 # inputs:
-#   command:   { required: true,  type: string }
-#   target:    { required: true,  type: string }
-#   archive:   { required: false, type: string }
-#   directory: { required: false, type: string }
-#   list:      { required: false, type: string, default: "/tmp/updated-list" }
-#   sudo:      { required: false, type: boolean }
-#   verbose:   { required: false, type: boolean, default: false }
+#   command: { required: true,  type: string }
+#   target:  { required: true,  type: string }
+#   archive: { required: false, type: string }
+#   path:    { required: false, type: string }
+#   list:    { required: false, type: string, default: "/tmp/updated-list" }
+#   sudo:    { required: false, type: boolean }
+#   verbose: { required: false, type: boolean, default: false }
 
 - uses: tecoli-com/actions-install-and-cache@v0
   with:
@@ -34,10 +34,10 @@ to be used from normal workflow.
     # if empty, do not archive
     archive: ''
 
-    # install directory
+    # install path
     # multiple directories can be specified
     # must start with /
-    directory: ''
+    path: ''
 
     # sudo: sudo or not
     sudo: false
@@ -55,7 +55,7 @@ to be used from normal workflow.
     command: apt-get install -qq
     archive: /tmp/apt-archive.tz
     sudo: true
-    directory: >-
+    path: >-
       /etc
       /usr/bin
       /usr/sbin

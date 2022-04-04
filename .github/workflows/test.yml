@@ -19,7 +19,7 @@ jobs:
           command: apt-get install -qq
           archive: /tmp/apt-archive.tz
           sudo: true
-          directory: >-
+          path: >-
             /etc
             /usr/bin
             /usr/sbin
