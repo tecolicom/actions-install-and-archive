@@ -66,20 +66,17 @@ runs:
                     -not -type d \( -cnewer $epoch -o -newer $epoch \) -print \
                     | tee -a $list \
                     | awk 'END { printf "%s files", NR }' 1>&2
-            done 2> /tmp/time-$$
-            cat /tmp/time-$$
+            done
             if [ -s $list ]
             then
                 echo "Creating $archive ..."
-                time $sudo tar -cvzf $archive -T $list
+                sed --in-place s:^/:: $list
+                time $sudo tar -cvzf $archive -C / -T $list
                 ls -l $archive
-                if [ "$verbose" = true ]
-                then
-                    tar -tvzf $archive
-                fi
+                [ "$verbose" = true ] && tar -tvzf $archive || :
             else
                 echo "no updated file found."
-                touch $archive
+                > $archive
             fi
         else
             echo $epoch not found
