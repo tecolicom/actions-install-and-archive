@@ -59,13 +59,14 @@ runs:
             do
                 [[ ! "$dir" =~ ^/ ]] && echo "$dir does not start with /" && continue
                 [ -d "$dir" ] || continue
-                echo "Finding $dir..."
+                echo -n "$dir:" 1>&2
                 # require sudo to avoid permission error
                 time sudo \
                 find $dir \
                     -not -type d \( -cnewer $epoch -o -newer $epoch \) -print \
                     | tee -a $list
-            done
+            done 2> /tmp/find-$$
+            sleep 1 && cat /tmp/find-$$
             if [ -s $list ]
             then
                 time $sudo tar -cvzf $archive -T $list
