@@ -64,11 +64,12 @@ runs:
                 time sudo \
                 find $dir \
                     -not -type d \( -cnewer $epoch -o -newer $epoch \) -print \
-                    | tee -a $list
-            done 2> /tmp/find-$$
-            sleep 1 && cat /tmp/find-$$
+                    >> $list
+            done 2> /tmp/time-$$
+            cat /tmp/time-$$
             if [ -s $list ]
             then
+                echo "Creating $archive ..."
                 time $sudo tar -cvzf $archive -T $list
                 ls -l $archive
                 if [ "$verbose" = true ]
