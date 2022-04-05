@@ -59,12 +59,13 @@ runs:
             do
                 [[ ! "$dir" =~ ^/ ]] && echo "$dir does not start with /" && continue
                 [ -d "$dir" ] || continue
-                echo -n "$dir:" 1>&2
+                echo "$dir:" 1>&2
                 # require sudo to avoid permission error
                 time sudo \
                 find $dir \
                     -not -type d \( -cnewer $epoch -o -newer $epoch \) -print \
-                    >> $list
+                    | tee -a $list \
+                    | perl -nE 'END { print STDERR "$. files" }'
             done 2> /tmp/time-$$
             cat /tmp/time-$$
             if [ -s $list ]
