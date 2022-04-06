@@ -65,19 +65,19 @@ runs:
                 find $dir \
                     -not -type d \( -cnewer $epoch -o -newer $epoch \) -print \
                     | tee -a $list \
-                    | awk 'END { printf "%s files", NR }' 1>&2
+                    | awk '{ print } END { printf "%d files", NR }' 1>&2
             done 2>&1
             if [ -s $list ]
             then
-                echo "Creating $archive ..."
                 sed --in-place s:^/:: $list
-                time $sudo tar -cvzf $archive -C / -T $list
+                echo -n Archive $(wc -l < $list) files in $archive ...
+                time $sudo tar -czf $archive -C / -T $list
                 ls -l $archive
                 [ "$verbose" = true ] && tar -tvzf $archive || :
             else
                 echo "no updated file found."
                 > $archive
-            fi
+            fi 2>&1
         else
             echo $epoch not found
         fi
