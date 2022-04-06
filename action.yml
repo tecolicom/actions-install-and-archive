@@ -55,29 +55,30 @@ runs:
         then
             cd /
             > $list
+            exec 2>&1
             for dir in $directory
             do
                 [[ ! "$dir" =~ ^/ ]] && echo "$dir does not start with /" && continue
                 [ -d "$dir" ] || continue
-                echo "$dir:" 1>&2
+                echo "$dir:"
                 # require sudo to avoid permission error
                 time sudo \
                 find $dir \
                     -not -type d \( -cnewer $epoch -o -newer $epoch \) -print \
                     | tee -a $list \
-                    | awk '{ print } END { printf "%d files", NR }' 1>&2
-            done 2>&1
+                    | awk '{ print } END { printf "%d files", NR }'
+            done
             if [ -s $list ]
             then
                 sed --in-place s:^/:: $list
-                echo -n Archive $(wc -l < $list) files in $archive ...
+                echo -n Archive $(wc -l < $list) files ...
                 time $sudo tar -czf $archive -C / -T $list
                 ls -l $archive
                 [ "$verbose" = true ] && tar -tvzf $archive || :
             else
                 echo "no updated file found."
                 > $archive
-            fi 2>&1
+            fi
         else
             echo $epoch not found
         fi
