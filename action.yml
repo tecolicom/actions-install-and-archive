@@ -68,6 +68,11 @@ runs:
                     | tee -a $list \
                     | awk '{ print } END { printf "%d files", NR }'
             done
+            perl -i -lne '-e ? print : print STDERR' $list 2> /tmp/dismissed
+            if [ -s /tmp/dismissed ]
+            then
+                echo dismissed: && cat /tmp/dismissed
+            fi
             if [ -s $list ]
             then
                 perl -i -pe s:^/:: $list
