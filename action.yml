@@ -48,22 +48,22 @@ runs:
         archive="${{ inputs.archive }}"
         list=${{ inputs.list }}
         verbose="${{ inputs.verbose }}"
-        directory="${{ inputs.path }}"
+        paths="${{ inputs.path }}"
         [ "${{ inputs.sudo }}" = true ] && sudo=sudo
-        : ${epoch:?} ${archive:?} ${directory:?}
+        : ${epoch:?} ${archive:?} ${paths:?}
         if [ -f $epoch ]
         then
             cd /
             > $list
             exec 2>&1
-            for dir in $directory
+            for path in $paths
             do
-                [[ ! "$dir" =~ ^/ ]] && echo "$dir does not start with /" && continue
-                [ -d "$dir" ] || continue
-                echo "$dir:"
+                [[ ! "$path" =~ ^/ ]] && echo "$path does not start with /" && continue
+                [ -e "$path" ] || continue
+                echo "$path:"
                 # require sudo to avoid permission error
                 time sudo \
-                find $dir \
+                find $path \
                     -not -type d \( -cnewer $epoch -o -newer $epoch \) -print \
                     | tee -a $list \
                     | awk '{ print } END { printf "%d files", NR }'
