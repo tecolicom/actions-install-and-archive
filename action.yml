@@ -70,7 +70,7 @@ runs:
             done
             if [ -s $list ]
             then
-                sed --in-place s:^/:: $list
+                perl -i -pe s:^/:: $list
                 echo -n Archive $(wc -l < $list) files ...
                 time $sudo tar -czf $archive -C / -T $list
                 ls -l $archive
