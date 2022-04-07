@@ -53,6 +53,7 @@ runs:
         paths="${{ inputs.path }}"
         [ "${{ inputs.sudo }}" = true ] && sudo=sudo
         : ${epoch:?} ${archive:?} ${paths:?}
+        [ "$verbose" = true ] && set -x
         if [ -f $epoch ]
         then
             cd /
