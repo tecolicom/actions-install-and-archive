@@ -28,7 +28,7 @@ jobs:
             /usr/share
             /var/lib
       - run: |
-          tar tvfz /tmp/apt-archive.tz \
+          tar -tvzf /tmp/apt-archive.tz \
               usr/bin/mecab \
               usr/lib/mecab/mecab-dict-index \
               etc/alternatives/mecab-dictionary \
