@@ -73,7 +73,7 @@ runs:
             done
             if [ -s $list ]
             then
-                perl -i -lne '-e ? print : print STDERR' $list 2> /tmp/dismissed
+                perl -i -lne '(-e) ? print : print STDERR' $list 2> /tmp/dismissed || :
                 if [ -s /tmp/dismissed ]
                 then
                     echo dismissed: && cat /tmp/dismissed
