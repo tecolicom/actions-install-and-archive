@@ -16,8 +16,11 @@ jobs:
         id: action
         with:
           run: |
-            apt-get install -qq \
-                mecab mecab-ipadic-utf8 libmecab-dev
+            apt list --installed | grep -i mecab
+            for pkg in mecab mecab-ipadic-utf8 libmecab-dev
+            do
+                apt-get install -qq $pkg
+            done
           archive: /tmp/apt-archive.tz
           sudo: true
           path: >-
@@ -28,8 +31,5 @@ jobs:
             /usr/share
             /var/lib
       - run: |
-          tar tvfz /tmp/apt-archive.tz \
-              usr/bin/mecab \
-              usr/lib/mecab/mecab-dict-index \
-              etc/alternatives/mecab-dictionary \
-              var/lib/mecab/dic/ipadic-utf8/sys.dic
+          mecab --version
+          echo 吾輩は猫である | mecab
