@@ -6,8 +6,7 @@ branding:
   icon:  type
 
 inputs:
-  command: { required: true,  type: string }
-  target:  { required: true,  type: string }
+  run:     { required: true,  type: string }
   archive: { required: false, type: string }
   path:    { required: true,  type: string }
   list:    { required: false, type: string, default: "/tmp/updated-list" }
@@ -31,13 +30,16 @@ runs:
       run: |
         : install
         [ "${{ inputs.sudo }}" = true ] && sudo=sudo
+        define() { IFS='\n' read -r -d '' ${1} || true ; }
+        define script <<'EOS_cad8_c24e_'
+        ${{ inputs.run }}
+        EOS_cad8_c24e_
         epoch="${{ steps.setup.outputs.epoch }}"
         : ${epoch:?}
-        test "${{ inputs.command }}" != ''
-        test "${{ inputs.target }}" != ''
+        test "$script" != ''
         touch $epoch && touch -A -01 $epoch &> /dev/null || sleep 0.1
         ls -l $epoch
-        $sudo ${{ inputs.command }} ${{ inputs.target }}
+        $sudo bash <<< "$script"
 
     - id: archive
       if: inputs.archive != ''

@@ -15,8 +15,9 @@ jobs:
       - uses: ./
         id: action
         with:
-          target: mecab mecab-ipadic-utf8 libmecab-dev
-          command: apt-get install -qq
+          run: |
+            apt-get install -qq \
+                mecab mecab-ipadic-utf8 libmecab-dev
           archive: /tmp/apt-archive.tz
           sudo: true
           path: >-
