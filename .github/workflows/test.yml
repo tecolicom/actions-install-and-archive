@@ -31,6 +31,11 @@ jobs:
             /usr/share
             /var/lib
       - run: |
+          stat \
+              /usr/bin/mecab \
+              /usr/lib/mecab/mecab-dict-index \
+              /etc/alternatives/mecab-dictionary \
+              /var/lib/mecab/dic/ipadic-utf8/sys.dic
           tar -tvzf /tmp/apt-archive.tz \
               usr/bin/mecab \
               usr/lib/mecab/mecab-dict-index \
