@@ -17,13 +17,6 @@ jobs:
         with:
           run: |
             apt list --installed | grep -i mecab
-            ls -lR /usr/lib/mecab /var/lib/mecab
-            stat \
-              /usr/bin/mecab \
-              /usr/lib/mecab/mecab-dict-index \
-              /etc/alternatives/mecab-dictionary \
-              /var/lib/mecab/dic/ipadic-utf8/sys.dic || :
-            apt-get update
             for pkg in mecab mecab-ipadic-utf8 libmecab-dev
             do
                 apt-get reinstall -qq $pkg
@@ -38,13 +31,5 @@ jobs:
             /usr/share
             /var/lib
       - run: |
-          stat \
-              /usr/bin/mecab \
-              /usr/lib/mecab/mecab-dict-index \
-              /etc/alternatives/mecab-dictionary \
-              /var/lib/mecab/dic/ipadic-utf8/sys.dic
-          tar -tvzf /tmp/apt-archive.tz \
-              usr/bin/mecab \
-              usr/lib/mecab/mecab-dict-index \
-              etc/alternatives/mecab-dictionary \
-              var/lib/mecab/dic/ipadic-utf8/sys.dic
+          mecab --version
+          echo 吾輩は猫である | mecab
