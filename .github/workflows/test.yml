@@ -17,8 +17,10 @@ jobs:
         with:
           run: |
             apt-get update
-            apt-get install -qq \
-                mecab mecab-ipadic-utf8 libmecab-dev
+            for pkg in mecab mecab-ipadic-utf8 libmecab-dev
+            do
+                apt-get install -qq $pkg
+            done
           archive: /tmp/apt-archive.tz
           sudo: true
           path: >-
