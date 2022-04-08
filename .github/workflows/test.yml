@@ -19,7 +19,7 @@ jobs:
             apt-get update
             for pkg in mecab mecab-ipadic-utf8 libmecab-dev
             do
-                apt-get install -qq $pkg
+                apt-get reinstall -qq $pkg
             done
           archive: /tmp/apt-archive.tz
           sudo: true
