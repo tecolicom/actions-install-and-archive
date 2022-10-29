@@ -71,6 +71,9 @@ runs:
                     | tee -a $list \
                     | awk '{ print } END { printf "%d files", NR }'
             done
+            #
+            # reomove dissmessed files
+            #
             if [ -s $list ]
             then
                 perl -i -lne '(-e) ? print : print STDERR' $list 2> /tmp/dismissed || :
@@ -79,6 +82,20 @@ runs:
                     echo dismissed: && cat /tmp/dismissed
                 fi
             fi
+            #
+            # move symbolic links to the end of the list
+            #
+            if [ -s $list ]
+            then
+                perl -i -lne '(-l) ? do {push @s, $_; print STDERR} : print; do {print for @s} if eof' $list 2> /tmp/symlink
+                if [ -s /tmp/symlink ]
+                then
+                    echo "moved symlinks:" && cat /tmp/symlink
+                fi
+            fi
+            #
+            # archive them
+            #
             if [ -s $list ]
             then
                 perl -i -pe s:^/:: $list
