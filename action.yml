@@ -91,6 +91,9 @@ runs:
                 if [ -s /tmp/symlink ]
                 then
                     echo "moved symlinks:" && cat /tmp/symlink
+                else
+                    echo "no symlinks"
+                    ls -l /tmp/symlink
                 fi
             fi
             #
