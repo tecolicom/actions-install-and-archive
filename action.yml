@@ -21,8 +21,8 @@ runs:
       shell: bash
       run: |
         : setup install-and-archive
-        cat << END
-        ::set-output name=epoch::/tmp/epoch-$$
+        cat << END >> $GITHUB_OUTPUT
+        epoch=/tmp/epoch-$$
         END
 
     - id: install
