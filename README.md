@@ -1,6 +1,6 @@
 # actions-install-and-archive
 
-![actions-install-and-archive](https://github.com/tecoli-com/actions-install-and-archive/actions/workflows/test.yml/badge.svg)
+![actions-install-and-archive](https://github.com/tecolicom/actions-install-and-archive/actions/workflows/test.yml/badge.svg)
 
 This GitHub action execute given script, and archive installed files.
 Before installation, an epoch file is made, and any files those have
@@ -61,6 +61,6 @@ to be used from normal workflow.
 
 ## See Also
 
-### [tecoli-com/actions](https://github.com/tecoli-com/actions)
+### [tecolicom/actions](https://github.com/tecolicom/actions)
 
-### [tecoli-com/actions-install-and-cache](https://github.com/tecoli-com/actions-install-and-cache)
+### [tecolicom/actions-install-and-cache](https://github.com/tecolicom/actions-install-and-cache)
