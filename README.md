@@ -20,7 +20,7 @@ to be used from normal workflow.
 #   sudo:    { required: false, type: boolean }
 #   verbose: { required: false, type: boolean, default: false }
 
-- uses: tecoli-com/actions-install-and-archive@v0
+- uses: tecolicom/actions-install-and-archive@v1
   with:
 
     # install script
@@ -45,7 +45,7 @@ to be used from normal workflow.
 ## Example
 
 ```yaml
-- uses: tecoli-com/actions-install-and-archive@v0
+- uses: tecolicom/actions-install-and-archive@v1
   with:
     run: apt-get install -qq mecab mecab-ipadic-utf8
     archive: /tmp/apt-archive.tz
