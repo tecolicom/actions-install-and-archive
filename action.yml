@@ -51,7 +51,6 @@ runs:
         list=${{ inputs.list }}
         verbose="${{ inputs.verbose }}"
         paths="${{ inputs.path }}"
-        [ "${{ inputs.sudo }}" = true ] && sudo=sudo
         : ${epoch:?} ${archive:?} ${paths:?}
         [ "$verbose" = true ] && set -x
         if [ -f $epoch ]
@@ -103,7 +102,7 @@ runs:
             then
                 perl -i -pe s:^/:: $list
                 echo -n Archive $(wc -l < $list) files ...
-                time $sudo tar -czf $archive -C / -T $list
+                time sudo tar -czf $archive -C / -T $list
                 ls -l $archive
                 [ "$verbose" = true ] && tar -tvzf $archive || :
             else
