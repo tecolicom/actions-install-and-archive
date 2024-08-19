@@ -35,7 +35,7 @@ to be used from normal workflow.
     # must start with /
     path: ''
 
-    # sudo: sudo or not
+    # sudo: run install script as root
     sudo: false
 
     # verbose: show verbose output
