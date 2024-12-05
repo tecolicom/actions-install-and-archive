@@ -10,8 +10,8 @@ inputs:
   archive: { required: false, type: string }
   path:    { required: true,  type: string }
   list:    { required: false, type: string, default: "/tmp/updated-list" }
-  sudo:    { required: false, type: boolean }
-  verbose: { required: false, type: boolean, default: false }
+  sudo:    { required: false, type: string }
+  verbose: { required: false, type: string, default: false }
 
 runs:
   using: composite
@@ -29,7 +29,7 @@ runs:
       shell: bash
       run: |
         : install
-        [ "${{ inputs.sudo }}" = true ] && sudo=sudo
+        case "${{ inputs.sudo }}" in true|yes) sudo=sudo;; esac
         define() { IFS='\n' read -r -d '' ${1} || true ; }
         define script <<'EOS_cad8_c24e_'
         ${{ inputs.run }}
@@ -71,7 +71,7 @@ runs:
                     | awk '{ print } END { printf "%d files", NR }'
             done
             #
-            # reomove dissmessed files
+            # remove dissmessed files
             #
             if [ -s $list ]
             then
