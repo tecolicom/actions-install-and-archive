@@ -16,6 +16,7 @@ jobs:
         id: action
         with:
           run: |
+            apt-get update
             apt list --installed | grep -i mecab
             for pkg in mecab mecab-ipadic-utf8 libmecab-dev
             do
